@@ -6,4 +6,9 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("CS 411 Project: Development Environment Setup")
+    print(request)
+    return render(request, 'index.html')
+    #return HttpResponse("CS 411 Project: Development Environment Setup")
+
+def test(request):
+    return render(request, 'test.html')
