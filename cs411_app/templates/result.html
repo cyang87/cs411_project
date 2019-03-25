@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Peersmap Create Events</title>
+</head>
+
+<body>
+  <p>test</p>
+
+    <ul>
+    {% for instance in result %}
+        {% for field, value in instance.items %}
+        <li> {{ field }}: {{ value }} </li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+
+</body>
+
+</html>

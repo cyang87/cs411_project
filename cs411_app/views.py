@@ -1,28 +1,38 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import ensure_csrf_cookie
-from cs411_app.models import Easy
+from django.core import serializers
+
+from django.db import connection
+
 
 # Create your views here.
 
 from django.http import HttpResponse
+
+from cs411_app.models import Pop
 
 
 def index(request):
     return render(request, 'index.html')
     #return HttpResponse("CS 411 Project: Development Environment Setup")
 
-def test(request):
-    return render(request, 'test.html')
 
-@csrf_protect
+@csrf_exempt
 def insert_record(request):
-    print("insert_record")
-    print(request.GET["input_test"])
+    state_filter = str(request.POST["state"])
 
-    p = Easy(request.GET["input_test"])
-    p.save()
+    query = "SELECT State, Y1999 FROM pop WHERE State=%s"
 
-    return render(request, 'test.html')
+    cursor = connection.cursor()
+    cursor.execute(query, [state_filter])
+    result = cursor.fetchall()
+
+    columns = cursor.description
+    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+
+    print(result)
+
+    return render(request, 'result.html', {'result': result})
