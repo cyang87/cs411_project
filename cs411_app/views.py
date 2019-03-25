@@ -7,12 +7,9 @@ from django.core import serializers
 
 from django.db import connection
 
-
 # Create your views here.
 
 from django.http import HttpResponse
-
-from cs411_app.models import Pop
 
 
 def index(request):
