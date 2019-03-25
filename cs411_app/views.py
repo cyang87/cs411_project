@@ -33,6 +33,7 @@ def insert_record(request):
     columns = cursor.description
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
+    print(cursor._last_executed)
     print(result)
 
     return render(request, 'result.html', {'result': result})

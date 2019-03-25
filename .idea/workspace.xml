@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="748938a6-09e8-4dda-8ca1-f7c6b19b53dd" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/cs411_app/templates/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cs411_app/templates/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/templates/test.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="748938a6-09e8-4dda-8ca1-f7c6b19b53dd" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,8 +56,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cs411_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+            <state relative-caret-position="302">
+              <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -313,8 +305,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs411_app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        <state relative-caret-position="302">
+          <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
