@@ -111,9 +111,10 @@ def updated_page(request):
 
 @csrf_exempt
 def deleted_page(request):
-    query1 = "DELETE FROM user_profile WHERE user_id = 'jd123'"
+    user_id = str(request.POST["user_id"])
+    query1 = "DELETE FROM user_profile WHERE user_id = %s"
     cursor = connection.cursor()
-    cursor.execute(query1)
+    cursor.execute(query1, [user_id])
 
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
