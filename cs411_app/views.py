@@ -21,6 +21,19 @@ def index(request):
 def insert_record(request):
     print(request.POST)
 
+    user_name = str(request.POST["name"])
+    user_id = str(request.POST["user_name"])
+    age = int(request.POST["age"])
+    gender = str(request.POST["gender"])
+    state = str(request.POST["state"])
+
+
+
+
+@csrf_exempt
+def query_databases(request):
+    print(request.POST)
+
     state_filter = str(request.POST["state"])
 
     query1 = "SELECT State, Y1999 from pop where STATE = %s"
