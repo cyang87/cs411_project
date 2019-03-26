@@ -9,15 +9,15 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body style="background-color:black;">
 <div class = "container">
 <div class="jumbotron">
-<h1> CS 411 Project </h1>
+<h1 class="text-center" > How Will You Die? </h1>
 </div>
 
 <!-- Name, user_name, age, gender, state, family_disease_history -->
 
-<form action="http://localhost:8000/insert_record/" method="POST">
+<form action="http://localhost:8000/insert_record/" method="POST" class = "text-center" style="color:white;">
     <div>
       <p>Name</p>
       <input name="name" id="name" type="text" required>
@@ -108,8 +108,9 @@
           <option value="Wyoming">Wyoming</option>
       </select>
     </div>
+    <br/>
 
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Submit" style="background-color: red" />
 
 </form>
 </div>
