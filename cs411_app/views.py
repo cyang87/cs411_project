@@ -109,9 +109,11 @@ def updated_page(request):
     print(result)
     return render(request, 'result.html', {'result': result})
 
+@csrf_exempt
 def deleted_page(request):
-    query1 = ""
-
+    query1 = "DELETE FROM user_profile WHERE user_id = 'jd123'"
+    cursor = connection.cursor()
+    cursor.execute(query1)
 
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
