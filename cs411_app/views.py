@@ -97,9 +97,11 @@ def search_record(request):
 @csrf_exempt
 def updated_page(request):
     query1 = ""
+
+
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
-    cursor.execute(query1)
+    cursor.execute(query2)
     result = cursor.fetchall()
     columns = cursor.description
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
@@ -109,12 +111,18 @@ def updated_page(request):
 
 def deleted_page(request):
     query1 = ""
+
+
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
-    cursor.execute(query1)
+    cursor.execute(query2)
     result = cursor.fetchall()
     columns = cursor.description
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
     print("result")
     print(result)
     return render(request, 'result.html', {'result': result})
+
+def analyze(request):
+
+    return render(request, 'result.html')
