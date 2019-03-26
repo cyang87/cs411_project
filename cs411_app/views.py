@@ -126,6 +126,15 @@ def deleted_page(request):
     print(result)
     return render(request, 'result.html', {'result': result})
 
+@csrf_exempt
 def analyze(request):
+    query1 = "SELECT causes1.CAUSE_NAME, causes1.STATE, causes1.deaths FROM causes as causes1, (SELECT STATE, max(Deaths) as max_deaths FROM causes  WHERE STATE = 'California' and C113_CAUSE_NAME!='All Causes' GROUP BY STATE) causes2 WHERE causes1.STATE = causes2.STATE and causes2.max_deaths = causes1.DEATHS;"
+    cursor = connection.cursor()
+    cursor.execute(query1)
+    result = cursor.fetchall()
+    columns = cursor.description
+    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+    print("result")
+    print(result)
+    return render(request, 'result.html', {'result': result})
 
-    return render(request, 'result.html')
