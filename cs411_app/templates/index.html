@@ -43,6 +43,7 @@
 
     <div>
       <p>State</p>
+
       <select id="state" name="state">
           <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
@@ -104,6 +105,15 @@
 
     <input type="submit" value="Submit"/>
 
+</form>
+
+<form action="http://localhost:8000/search_record/" method="POST">
+  <div>
+    <p>User name</p>
+    <input name="user_name" id="user_name" type="text" required>
+  </div>
+
+  <input type="submit" value="Submit"/>
 </form>
 
 </body>
