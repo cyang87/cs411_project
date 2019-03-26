@@ -84,9 +84,9 @@ def search_record(request):
     print("hello")
     print(request.POST)
     user_id = str(request.POST["user_id"])
-    query1 = "SELECT user_name, user_id, age, gender, state, family_disease_history from user_profile where user_id = 'jd123'"
+    query1 = "SELECT user_name, user_id, age, gender, state, family_disease_history from user_profile where user_id = %s"
     cursor = connection.cursor()
-    cursor.execute(query1)
+    cursor.execute(query1, [user_id])
     result = cursor.fetchall()
     columns = cursor.description
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
@@ -108,7 +108,7 @@ def updated_page(request):
     print("result")
     print(result)
     return render(request, 'result.html', {'result': result})
-    
+
 @csrf_exempt
 def deleted_page(request):
     query1 = "DELETE FROM user_profile WHERE user_id = 'jd123'"
@@ -124,3 +124,7 @@ def deleted_page(request):
     print("result")
     print(result)
     return render(request, 'result.html', {'result': result})
+
+def analyze(request):
+
+    return render(request, 'result.html')
