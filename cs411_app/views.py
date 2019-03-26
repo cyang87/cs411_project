@@ -19,6 +19,8 @@ def index(request):
 
 @csrf_exempt
 def insert_record(request):
+    print(request.POST)
+
     state_filter = str(request.POST["state"])
 
     query1 = "SELECT State, Y1999 from pop where STATE = %s"
