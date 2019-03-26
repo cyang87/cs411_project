@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-  <title>Main Page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Peersmap Create Events</title>
 </head>
 
-<body style="background-color:black;">
-<div class = "container">
-<div class="jumbotron">
-<h1 class="text-center" style="color:red;"> How Will You Die? </h1>
-</div>
+<body>
+<p>CS 411 Project</p>
 
 <!-- Name, user_name, age, gender, state, family_disease_history -->
 
-<form action="http://localhost:8000/insert_record/" method="POST" class = "text-center" style="color:white;">
+<form action="http://localhost:8000/insert_record/" method="POST">
     <div>
       <p>Name</p>
       <input name="name" id="name" type="text" required>
@@ -50,6 +44,7 @@
 
     <div>
       <p>State</p>
+
       <select id="state" name="state">
           <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
@@ -108,12 +103,20 @@
           <option value="Wyoming">Wyoming</option>
       </select>
     </div>
-    <br/>
 
-    <input type="submit" value="Submit" style="background-color: red" />
+    <input type="submit" value="Submit"/>
 
 </form>
-</div>
+
+<form action="http://localhost:8000/search_record/" method="POST">
+  <div>
+    <p>User name</p>
+    <input name="user_name" id="user_name" type="text" required>
+  </div>
+
+  <input type="submit" value="Submit"/>
+</form>
+
 </body>
 
 </html>
