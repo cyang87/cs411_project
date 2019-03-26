@@ -23,10 +23,16 @@ def insert_record(request):
 
     state_filter = str(request.POST["state"])
 
-    query = "SELECT State, Y1999 FROM pop WHERE State=%s"
+    query1 = "SELECT State, Y1999 from pop where STATE = %s"
+
+    query2 = "SELECT causes1.CAUSE_NAME, causes1.STATE, causes1.deaths " + \
+            "FROM causes as causes1, (SELECT STATE, max(Deaths) as max_deaths " + \
+            "FROM causes  WHERE STATE = %s " + \
+            "and C113_CAUSE_NAME!='All Causes' GROUP BY STATE) causes2 " + \
+            "WHERE causes1.STATE = causes2.STATE and causes2.max_deaths = causes1.DEATHS;"
 
     cursor = connection.cursor()
-    cursor.execute(query, [state_filter])
+    cursor.execute(query2, [state_filter])
     result = cursor.fetchall()
 
     columns = cursor.description
