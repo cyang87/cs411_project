@@ -21,6 +21,42 @@ def index(request):
 def insert_record(request):
     print(request.POST)
 
+    user_id = str(request.POST["user_id"])
+    user_name = str(request.POST["user_name"])
+    gender = str(request.POST["gender"])
+    age = int(request.POST["age"])
+    state = str(request.POST["state"])
+    disease1 = str(request.POST.get("disease1", ""))
+    disease2 = str(request.POST.get("disease2", ""))
+    disease3 = str(request.POST.get("disease3", ""))
+    to_add = []
+    if disease1 != "":
+        to_add.append(disease1)
+    if disease2 != "":
+        to_add.append(disease2)
+    if disease3 != "":
+        to_add.append(disease3)
+    if len(to_add) == 0:
+        family_disease_history = "NULL"
+    else:
+        family_disease_history = ",".join(to_add)
+
+    insert_query = "INSERT INTO user_profile (user_id, user_name, gender, age, state, family_disease_history) " + \
+                   "VALUES (%s, %s, %s, %s, %s, %s)"
+
+    print(insert_query % (user_id, user_name, gender, age, state, family_disease_history))
+
+    cursor = connection.cursor()
+    cursor.execute(insert_query, [user_id, user_name, gender, age, state, family_disease_history])
+    result = cursor.fetchall()
+
+    return render(request, 'result.html')
+
+
+@csrf_exempt
+def query_databases(request):
+    print(request.POST)
+
     state_filter = str(request.POST["state"])
 
     query1 = "SELECT State, Y1999 from pop where STATE = %s"
