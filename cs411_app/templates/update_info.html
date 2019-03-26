@@ -95,8 +95,8 @@
 
 </form>
 
-<form action="http://localhost:8000/deleted_page/" method="POST">
-  <input name="user_id" id="user_id" type="text" required>
+<form action="http://localhost:8000/deleted_page/?user_id={{result.0.user_id}}" method="POST">
+  <!-- <input name="user_id" id="user_id" type="text" required> -->
   <input type="submit" value="Delete"/>
 </form>
 

@@ -50,7 +50,16 @@ def insert_record(request):
     cursor.execute(insert_query, [user_id, user_name, gender, age, state, family_disease_history])
     result = cursor.fetchall()
 
-    return render(request, 'result.html')
+    query2 = "SELECT * from user_profile"
+    cursor = connection.cursor()
+    cursor.execute(query2)
+    result = cursor.fetchall()
+    columns = cursor.description
+    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+    print("result")
+    print(result)
+
+    return render(request, 'result.html', {'result': result})
 
 
 @csrf_exempt
@@ -77,11 +86,9 @@ def query_databases(request):
     print(cursor._last_executed)
     print(result)
 
-    return render(request, 'result.html', {'result': result})
-
 @csrf_exempt
 def search_record(request):
-    print("hello")
+    print("search")
     print(request.POST)
     user_id = str(request.POST["user_id"])
     query1 = "SELECT user_name, user_id, age, gender, state, family_disease_history from user_profile where user_id = %s"
@@ -111,7 +118,9 @@ def updated_page(request):
 
 @csrf_exempt
 def deleted_page(request):
-    user_id = str(request.POST["user_id"])
+    print("delete")
+    print(request.GET)
+    user_id = str(request.GET.get("user_id"))
     query1 = "DELETE FROM user_profile WHERE user_id = %s"
     cursor = connection.cursor()
     cursor.execute(query1, [user_id])
