@@ -11,28 +11,15 @@
 
 <!-- Name, user_name, age, gender, state, family_disease_history -->
 
-<form action="http://localhost:8000/insert_record/" method="POST">
+<form action="http://localhost:8000/updated_page/" method="POST">
     <div>
       <p>Name</p>
-      <input name="name" id="name" type="text" required>
-    </div>
-
-    <div>
-      <p>Username</p>
-      <input name="user_name" id="user_name" type="text" required>
+      <input name="name" id="name" value = "{{result.0.user_name}}" type="text" required> 
     </div>
 
     <div>
       <p>Age</p>
-      <input name="age" id="age" type="number" required>
-    </div>
-
-    <div>
-      <p>Gender</p>
-      <select name="gender" id="gender" required>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-      </select>
+      <input name="age" id="age" value = "{{result.0.age}}" type="number" required>
     </div>
 
     <div>
@@ -45,7 +32,7 @@
     <div>
       <p>State</p>
 
-      <select id="state" name="state">
+      <select id="state" name="state" selected = "{{result.0.state}}">
           <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
           <option value="Arizona">Arizona</option>
@@ -104,17 +91,12 @@
       </select>
     </div>
 
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Update"/>
 
 </form>
 
-<form action="http://localhost:8000/search_record/" method="POST">
-  <div>
-    <p>User ID</p>
-    <input name="user_id" id="user_id" type="text" required>
-  </div>
-
-  <input type="submit" value="Submit"/>
+<form action="http://localhost:8000/updated_page/" method="POST">
+  <input type="submit" value="Delete"/>
 </form>
 
 </body>
