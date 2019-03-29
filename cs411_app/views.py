@@ -97,7 +97,7 @@ def search_record(request):
 
 @csrf_exempt
 def updated_page(request):
-    user_id = str(request.GET.get("user_id"))
+    user_id = str(request.POST.get("user_id"))
     user_name = str(request.POST["name"])
     state = str(request.POST["state"])
     age = int(request.POST["age"])
@@ -113,8 +113,8 @@ def updated_page(request):
 @csrf_exempt
 def deleted_page(request):
     print("delete")
-    print(request.GET)
-    user_id = str(request.GET.get("user_id"))
+    print(request.POST)
+    user_id = str(request.POST.get("user_id"))
     query1 = "DELETE FROM user_profile WHERE user_id = %s"
     cursor = connection.cursor()
     cursor.execute(query1, [user_id])
@@ -197,6 +197,20 @@ def analyze(request):
 
                 result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
             else:     result = []
+
+        elif query_num == 3:
+
+            query1 = "SELECT State, Y2007 as avg_pop, avg_death FROM(SELECT State, avg(Deaths) as " + \
+                     "avg_death FROM causes WHERE C113_CAUSE_NAME= 'All Causes' GROUP BY State)as one " + \
+                     " NATURAL JOIN (SELECT State, Y2007 FROM pop) as two"
+
+            cursor = connection.cursor()
+            cursor.execute(query1)
+            result = cursor.fetchall()
+            columns = cursor.description
+            print(cursor._last_executed)
+
+            result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
         else:     result = []
 

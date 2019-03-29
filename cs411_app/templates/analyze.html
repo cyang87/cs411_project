@@ -88,13 +88,13 @@
 <div>
 
     {% if query_num == 3 %}
-    <ul>
     {% for instance in result %}
+        <ul>
         {% for field, value in instance.items %}
         <li> {{ field }}: {{ value }}</li>
         {% endfor %}
+        </ul>
     {% endfor %}
-    </ul>
     {% endif %}
 
 
