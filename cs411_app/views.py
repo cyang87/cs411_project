@@ -146,4 +146,3 @@ def analyze(request):
     print("result")
     print(result)
     return render(request, 'result.html', {'result': result})
-
