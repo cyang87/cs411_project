@@ -50,16 +50,7 @@ def insert_record(request):
     cursor.execute(insert_query, [user_id, user_name, gender, age, state, family_disease_history])
     result = cursor.fetchall()
 
-    query2 = "SELECT * from user_profile"
-    cursor = connection.cursor()
-    cursor.execute(query2)
-    result = cursor.fetchall()
-    columns = cursor.description
-    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
-    print("result")
-    print(result)
-
-    return render(request, 'result.html', {'result': result})
+    return show_results(request)
 
 
 @csrf_exempt
@@ -114,15 +105,10 @@ def updated_page(request):
     query1 = "UPDATE user_profile SET user_name = %s, state = %s, age = %s WHERE user_id = %s"
     cursor = connection.cursor()
     cursor.execute(query1, [user_name, state, age, user_id])
-    query2 = "SELECT * from user_profile"
-    cursor = connection.cursor()
-    cursor.execute(query2)
-    result = cursor.fetchall()
-    columns = cursor.description
-    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
-    print("result")
-    print(result)
-    return render(request, 'result.html', {'result': result})
+
+    print(cursor._last_executed)
+
+    return show_results(request)
 
 @csrf_exempt
 def deleted_page(request):
@@ -132,6 +118,9 @@ def deleted_page(request):
     query1 = "DELETE FROM user_profile WHERE user_id = %s"
     cursor = connection.cursor()
     cursor.execute(query1, [user_id])
+
+    print(cursor._last_executed)
+
     return show_results(request)
 
 @csrf_exempt
@@ -148,14 +137,72 @@ def show_results(request, message=None):
 
 @csrf_exempt
 def analyze(request):
-    user_state = str(request.GET.get("state"))
-    query1 = "SELECT causes1.CAUSE_NAME, causes1.STATE, causes1.deaths FROM causes as causes1, (SELECT STATE, max(Deaths) as max_deaths FROM causes  WHERE STATE = %s and C113_CAUSE_NAME!='All Causes' GROUP BY STATE) causes2 WHERE causes1.STATE = causes2.STATE and causes2.max_deaths = causes1.DEATHS;"
-    cursor = connection.cursor()
-    cursor.execute(query1, [user_state])
-    result = cursor.fetchall()
-    columns = cursor.description
-    result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+    user_id = str(request.POST["user_id"])
+
+
+
+    query_num = int(request.POST.get('query_num', -1))
+
+    if query_num != -1:
+        if query_num == 1:
+
+            query1 = "SELECT * FROM user_profile WHERE user_id = %s"
+            cursor = connection.cursor()
+            cursor.execute(query1, [user_id])
+            result = cursor.fetchall()
+            columns = cursor.description
+            result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+
+            user_state = result[0]['state']
+            year = int(request.POST.get('leadyear', -1))
+
+            if year != -1:
+
+                query1 = "SELECT causes1.CAUSE_NAME, causes1.STATE, causes1.deaths, causes1.YEAR FROM causes as causes1, " + \
+                         "(SELECT STATE, max(Deaths) as max_deaths FROM causes  WHERE STATE = %s and YEAR = %s " + \
+                         "and C113_CAUSE_NAME!='All Causes' GROUP BY STATE) causes2 WHERE causes1.STATE = causes2.STATE " + \
+                         "and causes2.max_deaths = causes1.DEATHS;"
+                cursor = connection.cursor()
+                cursor.execute(query1, [user_state, year])
+                result = cursor.fetchall()
+                columns = cursor.description
+                print(cursor._last_executed)
+
+
+                result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+            else:     result = []
+
+        elif query_num == 2:
+
+            query1 = "SELECT * FROM user_profile WHERE user_id = %s"
+            cursor = connection.cursor()
+            cursor.execute(query1, [user_id])
+            result = cursor.fetchall()
+            columns = cursor.description
+            result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+
+            user_state = result[0]['state']
+            year = int(request.POST.get('leadyear', -1))
+            year = 'Y' + str(year)
+
+            if year != -1:
+
+                query1 = "SELECT State, " + year + " from pop where STATE = %s"
+
+                cursor = connection.cursor()
+                cursor.execute(query1, [user_state])
+                result = cursor.fetchall()
+                columns = cursor.description
+                print(cursor._last_executed)
+
+                result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+            else:     result = []
+
+        else:     result = []
+
+    else:    result = []
+
     print("result")
     print(result)
-    return render(request, 'result.html', {'result': result})
+    return render(request, 'analyze.html', {'result': result, 'user_id': user_id, 'query_num': query_num})
 

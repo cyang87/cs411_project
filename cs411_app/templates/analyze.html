@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Analyze</title>
+</head>
+
+<body>
+
+<form action="http://localhost:8000/analyze/" method="POST">
+
+    <input type="hidden" name="query_num" value = "1" />
+        <input type="hidden" name="user_id" value="{{user_id}}" />
+
+    <div>
+      <p>Leading cause of deaths in your state in the year (1999-2013) </p>
+      <input name="leadyear" id="leadyear" type="number" required>
+    </div>
+
+    <input type="submit" value="Find out"/>
+
+</form>
+
+    <br>
+
+<div>
+
+    {% if query_num == 1 %}
+    <ul>
+    {% for instance in result %}
+        {% for field, value in instance.items %}
+        <li> {{ field }}: {{ value }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+</div>
+
+<form action="http://localhost:8000/analyze/" method="POST">
+
+    <input type="hidden" name="query_num" value = "2" />
+        <input type="hidden" name="user_id" value="{{user_id}}" />
+
+    <div>
+      <p>How much population in your state in the year (1999-2013)</p>
+      <input name="leadyear" id="leadyear" type="number" required>
+    </div>
+
+    <input type="submit" value="Find out"/>
+
+</form>
+
+    <br>
+
+<div>
+
+    {% if query_num == 2 %}
+    <ul>
+    {% for instance in result %}
+        {% for field, value in instance.items %}
+        <li> {{ field }}: {{ value }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+</div>
+
+<form action="http://localhost:8000/analyze/" method="POST">
+
+    <input type="hidden" name="query_num" value = "3" />
+        <input type="hidden" name="user_id" value="{{user_id}}" />
+
+    <div>
+      <p>Average population and deaths in all states over the years</p>
+    </div>
+
+    <input type="submit" value="Find out"/>
+
+</form>
+
+    <br>
+
+<div>
+
+    {% if query_num == 3 %}
+    <ul>
+    {% for instance in result %}
+        {% for field, value in instance.items %}
+        <li> {{ field }}: {{ value }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+</div>
+
+</body>
+</html>
+
