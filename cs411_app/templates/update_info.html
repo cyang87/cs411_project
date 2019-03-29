@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Peersmap Create Events</title>
+    <title>User Page</title>
 </head>
 
 <body>
@@ -11,7 +11,11 @@
 
 <!-- Name, user_name, age, gender, state, family_disease_history -->
 
-<form action="http://localhost:8000/updated_page/?user_id={{result.0.user_id}}" method="POST">
+<form action="http://localhost:8000/updated_page/" method="POST">
+
+        <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
+
+
     <div>
       <p>Name</p>
       <input name="name" id="name" value = "{{result.0.user_name}}" type="text" required>
@@ -95,12 +99,14 @@
 
 </form>
 
-<form action="http://localhost:8000/deleted_page/?user_id={{result.0.user_id}}" method="POST">
+<form action="http://localhost:8000/deleted_page/" method="POST">
   <!-- <input name="user_id" id="user_id" type="text" required> -->
+        <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
   <input type="submit" value="Delete"/>
 </form>
 
-<form action="http://localhost:8000/analyze/?state={{result.0.state}}" method="POST">
+<form action="http://localhost:8000/analyze/" method="POST">
+            <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
   <input type="submit" value="Analyze"/>
 </form>
 
