@@ -11,6 +11,7 @@ from django.db import connection
 
 from django.http import HttpResponse
 
+disease_mapping = {1:"diabetes", 2:"heart_attack", 3:"cancer"}
 
 def index(request):
     return render(request, 'index.html')
@@ -31,11 +32,11 @@ def insert_record(request):
     disease3 = str(request.POST.get("disease3", ""))
     to_add = []
     if disease1 != "":
-        to_add.append(disease1)
+        to_add.append('1')
     if disease2 != "":
-        to_add.append(disease2)
+        to_add.append('2')
     if disease3 != "":
-        to_add.append(disease3)
+        to_add.append('3')
     if len(to_add) == 0:
         family_disease_history = "NULL"
     else:
@@ -111,9 +112,26 @@ def updated_page(request):
     state = str(request.POST["state"])
     age = int(request.POST["age"])
 
-    query1 = "UPDATE user_profile SET user_name = %s, state = %s, age = %s WHERE user_id = %s"
+    disease1 = str(request.POST.get("disease1", ""))
+    disease2 = str(request.POST.get("disease2", ""))
+    disease3 = str(request.POST.get("disease3", ""))
+
+    to_add = []
+    if disease1 != "":
+        to_add.append('1')
+    if disease2 != "":
+        to_add.append('2')
+    if disease3 != "":
+        to_add.append('3')
+    if len(to_add) == 0:
+        family_disease_history = "NULL"
+    else:
+        family_disease_history = ",".join(to_add)
+
+
+    query1 = "UPDATE user_profile SET user_name = %s, state = %s, age = %s, family_disease_history = %s WHERE user_id = %s"
     cursor = connection.cursor()
-    cursor.execute(query1, [user_name, state, age, user_id])
+    cursor.execute(query1, [user_name, state, age, family_disease_history, user_id])
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
     cursor.execute(query2)
