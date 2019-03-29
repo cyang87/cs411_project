@@ -99,11 +99,14 @@ def search_record(request):
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
     print("result")
     print(result)
-    return render(request, 'update_info.html', {'result': result})
+    if len(result) == 0:
+        return show_results(request, 'No such record found.')
+    else:
+        return render(request, 'update_info.html', {'result': result})
 
 @csrf_exempt
 def updated_page(request):
-    user_id = str(request.GET.get("user_id")) 
+    user_id = str(request.GET.get("user_id"))
     user_name = str(request.POST["name"])
     state = str(request.POST["state"])
     age = int(request.POST["age"])
@@ -129,7 +132,10 @@ def deleted_page(request):
     query1 = "DELETE FROM user_profile WHERE user_id = %s"
     cursor = connection.cursor()
     cursor.execute(query1, [user_id])
+    return show_results(request)
 
+@csrf_exempt
+def show_results(request, message=None):
     query2 = "SELECT * from user_profile"
     cursor = connection.cursor()
     cursor.execute(query2)
@@ -138,7 +144,7 @@ def deleted_page(request):
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
     print("result")
     print(result)
-    return render(request, 'result.html', {'result': result})
+    return render(request, 'result.html', {'result': result, 'message': message})
 
 @csrf_exempt
 def analyze(request):

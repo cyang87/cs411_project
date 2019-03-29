@@ -6,16 +6,25 @@
     <title>Peersmap Create Events</title>
 </head>
 
-<body>
-  <p>test</p>
+{% if message %}
+<script>
+    alert('{{ message }}');
 
-    <ul>
-    {% for instance in result %}
-        {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }} </li>
-        {% endfor %}
+</script>
+{% endif %}
+
+<body>
+
+{% for instance in result %}
+<ul>
+    {% for field, value in instance.items %}
+    <li> {{ field }}: {{ value }}</li>
     {% endfor %}
-    </ul>
+</ul>
+{% endfor %}
+
+<a href="http://localhost:8000/cs411_app">Go to Homepage</a>
+
 
 </body>
 
