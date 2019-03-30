@@ -4,6 +4,11 @@
 
 <head>
     <title>All Data</title>
+          <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
 {% if message %}
@@ -14,6 +19,9 @@
 {% endif %}
 
 <body>
+<div class = "container">
+<h1 class="text-center" > All Data in database </h1>
+</div>
 
 {% for instance in result %}
 <ul>
@@ -23,8 +31,9 @@
 </ul>
 {% endfor %}
 
-<a href="http://localhost:8000/cs411_app">Go to Homepage</a>
-
+<br>
+<br>
+<p> <a href="http://localhost:8000/cs411_app">Homepage</a></p>
 
 </body>
 
