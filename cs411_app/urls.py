@@ -9,4 +9,5 @@ urlpatterns = [
     path('updated_page/', views.updated_page, name='updated_page'),
     path('deleted_page/', views.deleted_page, name='deleted_page'),
     path('analyze/', views.analyze, name='analyze'),
+    path('symptoms/', views.symptoms, name='symptoms')
 ]

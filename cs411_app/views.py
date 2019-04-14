@@ -217,3 +217,14 @@ def analyze(request):
     else:    result = []
 
     return render(request, 'analyze.html', {'result': result, 'user_id': user_id, 'query_num': query_num})
+
+@csrf_exempt
+def symptoms(request):
+    print("symptoms")
+    symptom1 = str(request.POST.get("symptom1", ""))
+    symptom2 = str(request.POST.get("symptom2", ""))
+    symptom3 = str(request.POST.get("symptom3", ""))
+    symptom4 = str(request.POST.get("symptom4", ""))
+    symptom5 = str(request.POST.get("symptom5", ""))
+
+    return render(request, 'analyze.html')
