@@ -226,5 +226,33 @@ def symptoms(request):
     symptom3 = str(request.POST.get("symptom3", ""))
     symptom4 = str(request.POST.get("symptom4", ""))
     symptom5 = str(request.POST.get("symptom5", ""))
+    result = []
+    to_add = []
+    if symptom1 != "":
+        to_add.append("%" + symptom1 + "%")
+    if symptom2 != "":
+        to_add.append("%" + symptom2 + "%")
+    if symptom3 != "":
+        to_add.append("%" + symptom3 + "%")
+    if symptom4 != "":
+        to_add.append("%" + symptom4 + "%")
+    if symptom5 != "":
+        to_add.append("%" + symptom5 + "%")
+    n_result = []
+    for symptom in to_add:
+        each_symp = symptom.split("+")
+        query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
+            "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 5;"
 
-    return render(request, 'analyze.html')
+        cursor = connection.cursor()
+        cursor.execute(query1, each_symp)
+        result = cursor.fetchall()
+        columns = cursor.description
+
+        print(cursor._last_executed)
+
+        n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
+
+    print(n_result)
+    # n_result = list(set(n_result))
+    return render(request, 'result.html', {'result': n_result})
