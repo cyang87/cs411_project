@@ -246,19 +246,19 @@ def analyze(request):
             result = []
             to_add = []
             if symptom1 != "":
-                print(symptom1)
+                # print(symptom1)
                 to_add.append("%" + symptom1 + "%")
             if symptom2 != "":
-                print(symptom2)
+                # print(symptom2)
                 to_add.append("%" + symptom2 + "%")
             if symptom3 != "":
-                print(symptom3)
+                # print(symptom3)
                 to_add.append("%" + symptom3 + "%")
             if symptom4 != "":
-                print(symptom4)
+                # print(symptom4)
                 to_add.append("%" + symptom4 + "%")
             if symptom5 != "":
-                print(symptom5)
+                # print(symptom5)
                 to_add.append("%" + symptom5 + "%")
             n_result = []
 
@@ -266,7 +266,7 @@ def analyze(request):
             print(to_add)
             symptoms_dict = collections.defaultdict(int)
             for symptom in to_add:
-                print(symptom)
+                # print(symptom)
                 
                 query1 = "select t2.Name as d_name, t.Weight from sym_dis t, symptoms t1, disease t2 " + \
                     "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 15;"
@@ -275,7 +275,7 @@ def analyze(request):
                 cursor.execute(query1, symptom)
                 result = cursor.fetchall()
                 columns = cursor.description
-                # print(cursor._last_executed)
+                print(cursor._last_executed)
                 result = list(result)
                 print("res")
                 print(result)
@@ -293,7 +293,7 @@ def analyze(request):
                     result = list(result)
                     for r in result:
                         symptoms_dict[r[0]] += int(w)
-                print(symptoms_dict)
+                # print(symptoms_dict)
 
             cnt = 0
             result2 = dict()
