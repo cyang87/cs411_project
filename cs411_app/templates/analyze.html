@@ -4,132 +4,157 @@
 
 <head>
     <title>Analyze</title>
-          <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-
 
 
 <body>
 
-<div class = "container">
-<h1 class="text-center" > Queries and Analysis </h1>
+<div class="container">
+    <h1 class="text-center"> Queries and Analysis </h1>
 </div>
 
-<form action="http://localhost:8000/analyze/" method="POST">
-
-    <input type="hidden" name="query_num" value = "1" />
-        <input type="hidden" name="user_id" value="{{user_id}}" />
-
+<div class="container" style="align: center">
     <div>
-      <p>Leading cause of deaths in your state in the year (1999-2013) </p>
-        Year
-      <input name="leadyear" id="leadyear" type="number" required>
+        <form action="http://localhost:8000/analyze/" method="POST">
+
+            <input type="hidden" name="query_num" value="1"/>
+            <input type="hidden" name="user_id" value="{{user_id}}"/>
+
+            <div>
+                <p>Leading cause of deaths in your state in the year (1999-2013) </p>
+                Year
+                <input name="leadyear" id="leadyear" type="number" required>
+            </div>
+
+            <input type="submit" value="Find out"/>
+
+        </form>
     </div>
-
-    <input type="submit" value="Find out"/>
-
-</form>
 
     <br>
 
-<div>
-
-    {% if query_num == 1 %}
-    <ul>
-    {% for instance in result %}
-        {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }}</li>
-        {% endfor %}
-    {% endfor %}
-    </ul>
-    {% endif %}
-
-
-</div>
-
-<form action="http://localhost:8000/analyze/" method="POST">
-
-    <input type="hidden" name="query_num" value = "2" />
-        <input type="hidden" name="user_id" value="{{user_id}}" />
-
     <div>
-      <p>How much population in your state in the year (1999-2013)</p>
-        Year
-      <input name="leadyear" id="leadyear" type="number" required>
-    </div>
 
-    <input type="submit" value="Find out"/>
-
-</form>
-
-    <br>
-
-<div>
-
-    {% if query_num == 2 %}
-    <ul>
-    {% for instance in result %}
-        {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }}</li>
-        {% endfor %}
-    {% endfor %}
-    </ul>
-    {% endif %}
-
-
-</div>
-
-<form action="http://localhost:8000/analyze/" method="POST">
-
-    <input type="hidden" name="query_num" value = "3" />
-        <input type="hidden" name="user_id" value="{{user_id}}" />
-
-    <div>
-      <p>Average population and deaths in all states over the years</p>
-    </div>
-
-    <input type="submit" value="Find out"/>
-
-</form>
-
-    <br>
-
-<div>
-
-    {% if query_num == 3 %}
-    {% for instance in result %}
+        {% if query_num == 1 %}
         <ul>
-        {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }}</li>
-        {% endfor %}
+            {% for instance in result %}
+            {% for field, value in instance.items %}
+            <li> {{ field }}: {{ value }}</li>
+            {% endfor %}
+            {% endfor %}
         </ul>
-    {% endfor %}
-    {% endif %}
+        {% endif %}
 
 
+    </div>
+
+    <div>
+        <form action="http://localhost:8000/analyze/" method="POST">
+
+            <input type="hidden" name="query_num" value="2"/>
+            <input type="hidden" name="user_id" value="{{user_id}}"/>
+
+            <div>
+                <p>How much population in your state in the year (1999-2013)</p>
+                Year
+                <input name="leadyear" id="leadyear" type="number" required>
+            </div>
+
+            <input type="submit" value="Find out"/>
+
+        </form>
+    </div>
+
+    <br>
+
+    <div>
+
+        {% if query_num == 2 %}
+        <ul>
+            {% for instance in result %}
+            {% for field, value in instance.items %}
+            <li> {{ field }}: {{ value }}</li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+    </div>
+
+    <div>
+        <form action="http://localhost:8000/analyze/" method="POST">
+
+            <input type="hidden" name="query_num" value="3"/>
+            <input type="hidden" name="user_id" value="{{user_id}}"/>
+
+            <div>
+                <p>Average population and deaths in all states over the years</p>
+            </div>
+
+            <input type="submit" value="Find out"/>
+
+        </form>
+    </div>
+
+    <br>
+
+    <div>
+
+        {% if query_num == 3 %}
+        {% for instance in result %}
+        <ul>
+            {% for field, value in instance.items %}
+            <li> {{ field }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+
+    <div>
+        <form action="http://localhost:8000/analyze/" method="POST">
+
+            <input type="hidden" name="query_num" value="4"/>
+            <input type="hidden" name="user_id" value="{{user_id}}"/>
+
+            <div>
+                <p>How are you feeling today?</p>
+                <textarea name="symptoms" id="symptoms" rows="10" cols="50" required>
+            </textarea>
+            </div>
+            <br>
+
+            <input type="submit" value="Check"/>
+        </form>
+    </div>
+
+    <div>
+
+        {% if query_num == 4 %}
+        {% for instance in result %}
+        <ul>
+            {% for field, value in instance.items %}
+            <li> {{ field }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
 </div>
 
-<form action="http://localhost:8000/symptoms/" method="POST">
-  <div>
-      <p>Symptoms</p>
-    <input type="checkbox" name="symptom1" id="symptom1" value="headache"> headache <br>
-    <input type="checkbox" name="symptom2" id="symptom2" value="skin_itchiness"> Skin itchiness <br>
-    <input type="checkbox" name="symptom3" id="symptom3" value="external_body_pain"> External Body Pain <br>
-    <input type="checkbox" name="symptom3" id="symptom4" value="oral"> Oral Pain <br>
-    <input type="checkbox" name="symptom3" id="symptom5" value="obesity"> obesity <br>
-  </div>
-  <br>
-  <input type="submit" value="Submit"/>
-</form>
-
-
 <br>
 <br>
-<p> <a href="http://localhost:8000/cs411_app">Homepage</a></p>
+<p><a href="http://localhost:8000/cs411_app">Homepage</a></p>
 
 </body>
 </html>

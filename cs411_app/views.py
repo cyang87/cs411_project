@@ -6,19 +6,20 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
 
 from django.db import connection
+from .keywords import *
 
 # Create your views here.
 
 from django.http import HttpResponse
 
+
 def index(request):
     return render(request, 'index.html')
-    #return HttpResponse("CS 411 Project: Development Environment Setup")
+    # return HttpResponse("CS 411 Project: Development Environment Setup")
 
 
 @csrf_exempt
 def insert_record(request):
-
     user_id = str(request.POST["user_id"])
     user_name = str(request.POST["user_name"])
     gender = str(request.POST["gender"])
@@ -56,14 +57,12 @@ def insert_record(request):
         insert_query = "INSERT INTO user_profile (user_id, user_name, gender, age, state, family_disease_history) " + \
                        "VALUES (%s, %s, %s, %s, %s, %s)"
 
-
         cursor = connection.cursor()
         cursor.execute(insert_query, [user_id, user_name, gender, age, state, family_disease_history])
         result = cursor.fetchall()
         print(cursor._last_executed)
 
         return show_results(request)
-
 
 
 @csrf_exempt
@@ -82,6 +81,7 @@ def search_record(request):
         return show_results(request, 'No such record found.')
     else:
         return render(request, 'update_info.html', {'result': result})
+
 
 @csrf_exempt
 def updated_page(request):
@@ -106,7 +106,6 @@ def updated_page(request):
     else:
         family_disease_history = ",".join(to_add)
 
-
     query1 = "UPDATE user_profile SET user_name = %s, state = %s, age = %s, family_disease_history = %s WHERE user_id = %s"
     cursor = connection.cursor()
 
@@ -127,6 +126,7 @@ def deleted_page(request):
 
     return show_results(request)
 
+
 @csrf_exempt
 def show_results(request, message=None):
     query2 = "SELECT * from user_profile"
@@ -136,6 +136,7 @@ def show_results(request, message=None):
     columns = cursor.description
     result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
     return render(request, 'result.html', {'result': result, 'message': message})
+
 
 @csrf_exempt
 def analyze(request):
@@ -168,9 +169,9 @@ def analyze(request):
                 columns = cursor.description
                 print(cursor._last_executed)
 
-
                 result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
-            else:     result = []
+            else:
+                result = []
 
         elif query_num == 2:
 
@@ -196,7 +197,8 @@ def analyze(request):
                 print(cursor._last_executed)
 
                 result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
-            else:     result = []
+            else:
+                result = []
 
         elif query_num == 3:
 
@@ -212,47 +214,32 @@ def analyze(request):
 
             result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-        else:     result = []
+        elif query_num == 4:
 
-    else:    result = []
+            condition = str(request.POST.get("symptoms", ""))
+
+            keywords = get_keywords(condition)
+
+            n_result = []
+            for symptom in keywords:
+                each_symp = symptom.split("+")
+                query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
+                         "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 5;"
+
+                cursor = connection.cursor()
+                cursor.execute(query1, each_symp)
+                result = cursor.fetchall()
+                columns = cursor.description
+
+                print(cursor._last_executed)
+
+                n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
+
+                result = n_result
+        else:
+            result = []
+
+    else:
+        result = []
 
     return render(request, 'analyze.html', {'result': result, 'user_id': user_id, 'query_num': query_num})
-
-@csrf_exempt
-def symptoms(request):
-    print("symptoms")
-    symptom1 = str(request.POST.get("symptom1", ""))
-    symptom2 = str(request.POST.get("symptom2", ""))
-    symptom3 = str(request.POST.get("symptom3", ""))
-    symptom4 = str(request.POST.get("symptom4", ""))
-    symptom5 = str(request.POST.get("symptom5", ""))
-    result = []
-    to_add = []
-    if symptom1 != "":
-        to_add.append("%" + symptom1 + "%")
-    if symptom2 != "":
-        to_add.append("%" + symptom2 + "%")
-    if symptom3 != "":
-        to_add.append("%" + symptom3 + "%")
-    if symptom4 != "":
-        to_add.append("%" + symptom4 + "%")
-    if symptom5 != "":
-        to_add.append("%" + symptom5 + "%")
-    n_result = []
-    for symptom in to_add:
-        each_symp = symptom.split("+")
-        query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
-            "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 5;"
-
-        cursor = connection.cursor()
-        cursor.execute(query1, each_symp)
-        result = cursor.fetchall()
-        columns = cursor.description
-
-        print(cursor._last_executed)
-
-        n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
-
-    print(n_result)
-    # n_result = list(set(n_result))
-    return render(request, 'result.html', {'result': n_result})
