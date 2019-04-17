@@ -160,12 +160,27 @@
           <input type="checkbox" name="symptom1" id="symptom1" value="headache"> headache <br>
           <input type="checkbox" name="symptom2" id="symptom2" value="skin_itchiness"> Skin itchiness <br>
           <input type="checkbox" name="symptom3" id="symptom3" value="external_body_pain"> External Body Pain <br>
-          <input type="checkbox" name="symptom3" id="symptom4" value="oral"> Oral Pain <br>
+          <input type="checkbox" name="symptom3" id="symptom4" value="swelling"> Swelling <br>
           <input type="checkbox" name="symptom3" id="symptom5" value="obesity"> obesity <br>
         </div>
         <br>
         <input type="submit" value="Submit"/>
       </form>
+    </div>
+
+    <div>
+
+    {% if query_num == 5 %}
+    {% for instance in result %}
+    <ul>
+        {% for field, value in instance.items %}
+        <li> {{ field }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    {% endif %}
+
+
     </div>
 </div>
 
