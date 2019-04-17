@@ -268,27 +268,32 @@ def analyze(request):
             for symptom in to_add:
                 print(symptom)
                 
-                query1 = "select t2.Name as d_name from sym_dis t, symptoms t1, disease t2 " + \
-                    "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 10;"
+                query1 = "select t2.Name as d_name, t.Weight from sym_dis t, symptoms t1, disease t2 " + \
+                    "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 15;"
 
                 cursor = connection.cursor()
                 cursor.execute(query1, symptom)
                 result = cursor.fetchall()
                 columns = cursor.description
-                print(cursor._last_executed)
+                # print(cursor._last_executed)
                 result = list(result)
+                print("res")
+                print(result)
 
-                for disease_name in result:
+                for disease in result:
+                    disease_name = disease[0]
+                    w = disease[1]
                     query2 = "select t1.name from sym_dis t, symptoms t1, disease t2 " + \
                     "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t2.Name LIKE %s limit 5;"
                     cursor = connection.cursor()
-                    cursor.execute(query2, disease_name[0])
+                    cursor.execute(query2, disease_name)
                     result = cursor.fetchall()
                     columns = cursor.description
-                    print(cursor._last_executed)
+                    # print(cursor._last_executed)
                     result = list(result)
                     for r in result:
-                        symptoms_dict[r[0]] += 1
+                        symptoms_dict[r[0]] += int(w)
+                print(symptoms_dict)
 
             cnt = 0
             result2 = dict()
