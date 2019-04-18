@@ -144,6 +144,16 @@ def analyze(request):
 
     query_num = int(request.POST.get('query_num', -1))
 
+    query_sym = "SELECT Name FROM symptoms"
+    cursor = connection.cursor()
+    cursor.execute(query_sym)
+    result = cursor.fetchall()
+    columns = cursor.description
+
+    sym_vocab = []
+    for r in result:
+        sym_vocab.append(r[0])
+
     if query_num != -1:
         if query_num == 1:
 
@@ -218,13 +228,15 @@ def analyze(request):
 
             condition = str(request.POST.get("symptoms", ""))
 
-            keywords = get_keywords(condition)
+            keywords = get_keywords(condition, sym_vocab)
+            keywords = ['%' + keyword + '%' for keyword in keywords]
 
             n_result = []
             for symptom in keywords:
                 each_symp = symptom.split("+")
                 query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
-                         "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 5;"
+                         "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
+                         "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
 
                 cursor = connection.cursor()
                 cursor.execute(query1, each_symp)
