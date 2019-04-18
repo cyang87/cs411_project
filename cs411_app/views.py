@@ -6,7 +6,11 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
 import collections
 from django.db import connection
-from .keywords import *
+import math
+def truncate(number, digits) -> float:
+    stepper = pow(10.0, digits)
+    return math.trunc(stepper * number) / stepper
+# from .keywords import *
 
 # Create your views here.
 
@@ -224,30 +228,30 @@ def analyze(request):
 
             result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-        elif query_num == 4:
-
-            condition = str(request.POST.get("symptoms", ""))
-
-            keywords = get_keywords(condition, sym_vocab)
-            keywords = ['%' + keyword + '%' for keyword in keywords]
-
-            n_result = []
-            for symptom in keywords:
-                each_symp = symptom.split("+")
-                query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
-                         "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
-                         "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
-
-                cursor = connection.cursor()
-                cursor.execute(query1, each_symp)
-                result = cursor.fetchall()
-                columns = cursor.description
-
-                print(cursor._last_executed)
-
-                n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
-
-                result = n_result
+        # elif query_num == 4:
+        #
+        #     condition = str(request.POST.get("symptoms", ""))
+        #
+        #     keywords = get_keywords(condition, sym_vocab)
+        #     keywords = ['%' + keyword + '%' for keyword in keywords]
+        #
+        #     n_result = []
+        #     for symptom in keywords:
+        #         each_symp = symptom.split("+")
+        #         query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
+        #                  "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
+        #                  "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
+        #
+        #         cursor = connection.cursor()
+        #         cursor.execute(query1, each_symp)
+        #         result = cursor.fetchall()
+        #         columns = cursor.description
+        #
+        #         print(cursor._last_executed)
+        #
+        #         n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
+        #
+        #         result = n_result
         elif query_num == 5:
             print("symptoms")
             symptom1 = str(request.POST.get("symptom1", ""))
@@ -279,7 +283,7 @@ def analyze(request):
             symptoms_dict = collections.defaultdict(int)
             for symptom in to_add:
                 # print(symptom)
-                
+
                 query1 = "select t2.Name as d_name, t.Weight from sym_dis t, symptoms t1, disease t2 " + \
                     "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 15;"
 
@@ -309,17 +313,24 @@ def analyze(request):
 
             cnt = 0
             result2 = dict()
+            sum_weight = 0
             for key, value in sorted(symptoms_dict.items(), key=lambda item: item[1], reverse = True):
                 if cnt == 5:
                     break
                 if ("%"+key+"%").lower() not in to_add:
                     cnt += 1
                     result2[key] = value
+                    sum_weight += value
 
             ans = []
             ans.append(result2)
             result = ans
-            print(result)
+
+            for key, value in sorted(result[0].items(), reverse = True):
+                result[0][key] = truncate(result[0][key]/sum_weight * 100, 2)
+
+            print("result",result)
+
         else:
             result = []
 
