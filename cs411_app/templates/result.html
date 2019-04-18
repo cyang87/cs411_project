@@ -18,17 +18,18 @@
 </script>
 {% endif %}
 
-<body>
+<body style="background-color:black;">
 <div class = "container">
-<h1 class="text-center" > All Data in database </h1>
+<h1 class="text-center" style="color:white;" > All Data in database </h1>
 </div>
 
 {% for instance in result %}
-<ul>
+<ul style="color:white;">
     {% for field, value in instance.items %}
-    <li> {{ field }}: {{ value }}</li>
+    <li style="color:white;"> <strong style="color:yellow;">{{ field }}</strong>: {{ value }}</li>
     {% endfor %}
 </ul>
+<br>
 {% endfor %}
 
 <br>

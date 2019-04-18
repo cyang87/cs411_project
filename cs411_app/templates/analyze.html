@@ -173,10 +173,11 @@
     <div style="color:white;">
 
     {% if query_num == 5 %}
+    <h4>Are you also having the following symptoms?</h4>
     {% for instance in result %}
     <ul>
         {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }}</li>
+        <li> {{ field }}: {{ value }}%</li>
         {% endfor %}
     </ul>
     {% endfor %}

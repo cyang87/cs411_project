@@ -224,7 +224,6 @@ def analyze(request):
                 else:
                     result = "Less likely"
 
-
         elif query_num == 3:
 
             query1 = "SELECT State, Y2007 as avg_pop, avg_death FROM(SELECT State, avg(Deaths) as " + \
@@ -239,31 +238,30 @@ def analyze(request):
 
             result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-        elif query_num == 4:
-            pass
-
-            # condition = str(request.POST.get("symptoms", ""))
-
-            # keywords = get_keywords(condition, sym_vocab)
-            # keywords = ['%' + keyword + '%' for keyword in keywords]
-
-            # n_result = []
-            # for symptom in keywords:
-            #     each_symp = symptom.split("+")
-            #     query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
-            #              "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
-            #              "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
-
-            #     cursor = connection.cursor()
-            #     cursor.execute(query1, each_symp)
-            #     result = cursor.fetchall()
-            #     columns = cursor.description
-
-            #     print(cursor._last_executed)
-
-            #     n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
-
-            #     result = n_result
+        # elif query_num == 4:
+        #
+        #     condition = str(request.POST.get("symptoms", ""))
+        #
+        #     keywords = get_keywords(condition, sym_vocab)
+        #     keywords = ['%' + keyword + '%' for keyword in keywords]
+        #
+        #     n_result = []
+        #     for symptom in keywords:
+        #         each_symp = symptom.split("+")
+        #         query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
+        #                  "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
+        #                  "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
+        #
+        #         cursor = connection.cursor()
+        #         cursor.execute(query1, each_symp)
+        #         result = cursor.fetchall()
+        #         columns = cursor.description
+        #
+        #         print(cursor._last_executed)
+        #
+        #         n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
+        #
+        #         result = n_result
         elif query_num == 5:
             print("symptoms")
             symptom1 = str(request.POST.get("symptom1", ""))
