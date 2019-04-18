@@ -60,9 +60,7 @@
             <input type="hidden" name="user_id" value="{{user_id}}"/>
 
             <div>
-                <p>How much population in your state in the year (1999-2013)</p>
-                Year
-                <input name="leadyear" id="leadyear" type="number" style="color:black;">
+                <p>Your fatality rate based on age and state</p>
             </div>
 
             <input type="submit" value="Find out" style="background-color: red"/>
@@ -75,13 +73,7 @@
     <div style="color:white;">
 
         {% if query_num == 2 %}
-        <ul>
-            {% for instance in result %}
-            {% for field, value in instance.items %}
-            <li> {{ field }}: {{ value }}</li>
-            {% endfor %}
-            {% endfor %}
-        </ul>
+        <p> {{ result }} </p>
         {% endif %}
 
 
