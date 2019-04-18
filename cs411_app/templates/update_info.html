@@ -11,9 +11,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body style="background-color:black;">
 <div class = "container">
-<h1 class="text-center" > User Record Page </h1>
+<h1 class="text-center" style="color:white"> User Record Page </h1>
 </div>
 
 <!-- Name, user_name, age, gender, state, family_disease_history -->
@@ -25,26 +25,26 @@
 
     <td align="right" style="width: 40%">
     <div>
-    <form action="http://localhost:8000/updated_page/" method="POST">
+    <form action="http://localhost:8000/updated_page/" method="POST" style="color:white;">
 
             <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
 
 
         <div>
-          <p>Name</p>
-          <input name="name" id="name" value = "{{result.0.user_name}}" type="text" required>
+          <p style="color:white">Name</p>
+          <input name="name" id="name" value = "{{result.0.user_name}}" type="text" style="color:black;" required>
         </div>
         <br>
         <div>
-          <p>Age</p>
-          <input name="age" id="age" value = "{{result.0.age}}" type="number" required>
+          <p style="color:white">Age</p>
+          <input name="age" id="age" value = "{{result.0.age}}" type="number" style="color:black;" required>
         </div>
         <br>
         <div>
-          <p>Family Disease History</p>
+          <p style="color:white">Family Disease History</p>
 
             {% if 'diabetes' in result.0.family_disease_history %}
-            <input type="checkbox" name="disease1" value="diabetes" checked> diabetes <br>
+            <input type="checkbox" name="disease1" value="diabetes" checked > diabetes <br>
             {% else %}
             <input type="checkbox" name="disease1" value="diabetes"> diabetes <br>
             {% endif %}
@@ -65,9 +65,9 @@
         </div>
         <br>
         <div>
-          <p>State</p>
+          <p style="color:white">State</p>
 
-          <select id="state" name="state">
+          <select id="state" name="state" style="color:black;">
               <option value="Alabama">Alabama</option>
               <option value="Alaska">Alaska</option>
               <option value="Arizona">Arizona</option>
@@ -126,7 +126,7 @@
           </select>
         </div>
         <br>
-        <input type="submit" value="Update"/>
+        <input type="submit" value="Update" style="background-color: red"/>
 
     </form>
     </div>
@@ -134,18 +134,18 @@
     </td>
 
     <td align="center" style="width: 20%">
-            <form action="http://localhost:8000/deleted_page/" method="POST">
+            <form action="http://localhost:8000/deleted_page/" method="POST" style="color:white;">
       <!-- <input name="user_id" id="user_id" type="text" required> -->
                 <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
-          <input type="submit" value="Delete"/>
+          <input type="submit" value="Delete" style="background-color: red"/>
         </form>
     </td>
 
     <td align="left" style="width: 40%">
 
-            <form action="http://localhost:8000/analyze/" method="POST">
+            <form action="http://localhost:8000/analyze/" method="POST" style="color:white;">
                     <input type="hidden" name="user_id" value="{{result.0.user_id}}" />
-          <input type="submit" value="Analyze"/>
+          <input type="submit" value="Analyze" style="background-color: red"/>
         </form>
 
     </td>
