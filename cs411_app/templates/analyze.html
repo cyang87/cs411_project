@@ -53,6 +53,9 @@
 
     </div>
 
+    <br>
+    <br>
+
     <div>
         <form action="http://localhost:8000/analyze/" method="POST" style="color:white;">
 
@@ -60,7 +63,7 @@
             <input type="hidden" name="user_id" value="{{user_id}}"/>
 
             <div>
-                <p>Your fatality rate based on age and state</p>
+                <p>Your fatality rate based on your age and state</p>
             </div>
 
             <input type="submit" value="Find out" style="background-color: red"/>
@@ -73,11 +76,20 @@
     <div style="color:white;">
 
         {% if query_num == 2 %}
-        <p> {{ result }} </p>
+            {% for instance in result %}
+            <ul>
+            {% for field, value in instance.items %}
+            <li> {{ field }}: {{ value }}</li>
+            {% endfor %}
+            </ul>
+            {% endfor %}
         {% endif %}
 
 
     </div>
+
+    <br>
+    <br>
 
     <div>
         <form action="http://localhost:8000/analyze/" method="POST" style="color:white;">
@@ -111,6 +123,9 @@
 
     </div>
 
+    <br>
+    <br>
+
     <div>
         <form action="http://localhost:8000/analyze/" method="POST" style="color:white;">
 
@@ -118,7 +133,7 @@
             <input type="hidden" name="user_id" value="{{user_id}}"/>
 
             <div>
-                <p>How are you feeling today?</p>
+                <p>How are you feeling today? (NLP based symptom match)</p>
                 <textarea name="symptoms" id="symptoms" rows="10" cols="50" required style="color:black;">
             </textarea>
             </div>
@@ -144,13 +159,14 @@
     </div>
 
     <br>
+    <br>
 
     <div>
       <form action="http://localhost:8000/analyze/" method="POST" style="color:white;">
                   <input type="hidden" name="query_num" value="5"/>
             <input type="hidden" name="user_id" value="{{user_id}}"/>
         <div>
-            <p>Symptoms</p>
+            <p>Choose some symptoms you have (Symptom Collaborative Filtering)</p>
           <input type="checkbox" name="symptom1" id="symptom1" value="headache"> headache <br>
           <input type="checkbox" name="symptom2" id="symptom2" value="skin"> Skin itchiness <br>
           <input type="checkbox" name="symptom3" id="symptom3" value="pain"> External Body Pain <br>
@@ -158,18 +174,18 @@
           <input type="checkbox" name="symptom5" id="symptom5" value="obesity"> obesity <br>
         </div>
         <br>
-        <input type="submit" value="Submit" style="background-color: red"/>
+        <input type="submit" value="Check" style="background-color: red"/>
       </form>
     </div>
 
     <div style="color:white;">
 
     {% if query_num == 5 %}
-    <h4>Are you also having the following symptoms?</h4>
+    Are you also having the following symptoms?
     {% for instance in result %}
     <ul>
         {% for field, value in instance.items %}
-        <li> {{ field }}: {{ value }}%</li>
+        <li> {{ field }}:   {{ value }}</li>
         {% endfor %}
     </ul>
     {% endfor %}

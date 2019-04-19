@@ -6,7 +6,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
 import collections
 from django.db import connection
-# from .keywords import *
+from .keywords import *
 
 # Create your views here.
 
@@ -195,34 +195,49 @@ def analyze(request):
             user_state = result[0]['state']
             user_age = result[0]['age']
             print(user_age)
-            query1 = "select AADR/100000 from causes where C113_CAUSE_NAME = 'All Causes' and State = %s limit 1"
-            cursor = connection.cursor()
-            cursor.execute(query1, [user_state])
-            result = cursor.fetchall()
-            columns = cursor.description
-            print(cursor._last_executed)
-            print(result[0][0])
-            num1 = result[0][0]
+            # query1 = "select AADR/100000 from causes where C113_CAUSE_NAME = 'All Causes' and State = %s limit 1"
+            # cursor = connection.cursor()
+            # cursor.execute(query1, [user_state])
+            # result = cursor.fetchall()
+            # columns = cursor.description
+            # print(cursor._last_executed)
+            # print(result[0][0])
+            # num1 = result[0][0]
 
-            query2 = "select c.Deaths/p.Y1999 from causes c, pop p where c.C113_CAUSE_NAME = 'All Causes' and c.State = %s and p.State = c.state limit 1"
+            query2 = "select CAUSE_NAME, Deaths/Y2007 as DR, AADR/100000 as AADR from " + \
+                     "(causes natural join pop) where State = %s and YEAR = 2007 and " + \
+                     "CAUSE_NAME <> 'All Causes' order by DR desc limit 5";
             cursor = connection.cursor()
             cursor.execute(query2, [user_state])
             result = cursor.fetchall()
             columns = cursor.description
             print(cursor._last_executed)
-            print(result[0][0])
-            num2 = result[0][0]
+            print(result)
+            result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-            if num1<num2:
-                if user_age>=30 or user_age<=50:
-                    result = "Less likely"
+            for r in result:
+                if r['AADR'] < r['DR']:
+                    if 25 <= user_age <= 45:
+                        r['Likeliness'] = "Less likely for your age"
+                    else:
+                        r['Likeliness'] = "More likely for your age"
+
                 else:
-                    result = "More likely"
-            else:
-                if user_age>=30 or user_age<=50:
-                    result = "More likely"
-                else:
-                    result = "Less likely"
+                    if 25 <= user_age <= 45:
+                        r['Likeliness'] = "More likely for your age"
+                    else:
+                        r['Likeliness'] = "Less likely for your age"
+
+            # if num1<num2:
+            #     if user_age>=30 or user_age<=50:
+            #         result = "Less likely"
+            #     else:
+            #         result = "More likely"
+            # else:
+            #     if user_age>=30 or user_age<=50:
+            #         result = "More likely"
+            #     else:
+            #         result = "Less likely"
 
         elif query_num == 3:
 
@@ -238,30 +253,46 @@ def analyze(request):
 
             result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-        # elif query_num == 4:
-        #
-        #     condition = str(request.POST.get("symptoms", ""))
-        #
-        #     keywords = get_keywords(condition, sym_vocab)
-        #     keywords = ['%' + keyword + '%' for keyword in keywords]
-        #
-        #     n_result = []
-        #     for symptom in keywords:
-        #         each_symp = symptom.split("+")
-        #         query1 = "select t2.Name, t.weight from sym_dis t, symptoms t1, disease t2 " + \
-        #                  "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
-        #                  "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
-        #
-        #         cursor = connection.cursor()
-        #         cursor.execute(query1, each_symp)
-        #         result = cursor.fetchall()
-        #         columns = cursor.description
-        #
-        #         print(cursor._last_executed)
-        #
-        #         n_result.extend([{columns[index][0]: column for index, column in enumerate(value)} for value in result])
-        #
-        #         result = n_result
+        elif query_num == 4:
+
+            condition = str(request.POST.get("symptoms", ""))
+
+            print(condition)
+            keywords = get_keywords(condition, sym_vocab)
+            keywords = ['%' + keyword + '%' for keyword in keywords]
+
+            n_result = []
+            d_set = set()
+            for symptom in keywords:
+                each_symp = symptom.split("+")
+                query1 = "select t2.Name, t.weight as Likelihood from sym_dis t, symptoms t1, disease t2 " + \
+                         "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
+                         "LOWER(t1.name) LIKE LOWER(%s) order by t.weight limit 5;"
+
+                cursor = connection.cursor()
+                cursor.execute(query1, each_symp)
+                result = cursor.fetchall()
+                columns = cursor.description
+
+                print(cursor._last_executed)
+
+                t_result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
+
+                mapper = {1: 'Somewhat likely', 2: 'Likely', 3: 'Very likely'}
+                for r in t_result:
+                    if r['Name'] in d_set:
+                        for n in n_result:
+                            if n['Name'] == r['Name']:
+                                n['Likelihood'] = max(n['Likelihood'], r['Likelihood'])
+                    else:
+                        d_set.add(r['Name'])
+                        n_result.append(r)
+
+            for r in n_result:
+                r['Likelihood'] = mapper[r['Likelihood']]
+
+            result = n_result
+
         elif query_num == 5:
             print("symptoms")
             symptom1 = str(request.POST.get("symptom1", ""))
@@ -329,6 +360,12 @@ def analyze(request):
                 if ("%"+key+"%").lower() not in to_add:
                     cnt += 1
                     result2[key] = value
+
+            for key, val in result2.items():
+                if val >= 10:
+                    result2[key] = 'Highly correlated'
+                else:
+                    result2[key] = 'Possibly correlated'
 
             ans = []
             ans.append(result2)

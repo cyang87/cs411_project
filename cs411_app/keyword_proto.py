@@ -64,3 +64,5 @@ for word in cond_lemmas:
 symset = list(set(symset))
 print(symset)
     
+
+
