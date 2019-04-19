@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="748938a6-09e8-4dda-8ca1-f7c6b19b53dd" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs411_app/keyword_proto.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/keyword_proto.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cs411_app/templates/analyze.html" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/templates/analyze.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cs411_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs411_app/views.py" afterDir="false" />
     </list>
@@ -67,8 +66,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cs411_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="367" column="55" selection-start-line="367" selection-start-column="55" selection-end-line="367" selection-end-column="55" />
+            <state relative-caret-position="-143">
+              <caret line="268" lean-forward="true" selection-start-line="268" selection-end-line="268" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -88,8 +87,8 @@
       <file leaf-file-name="analyze.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cs411_app/templates/analyze.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="187" column="28" selection-start-line="187" selection-start-column="28" selection-end-line="187" selection-end-column="28" />
+            <state relative-caret-position="280">
+              <caret line="188" column="28" selection-start-line="188" selection-start-column="28" selection-end-line="188" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -152,12 +151,12 @@
         <option value="$PROJECT_DIR$/cs411_app/templates/update_info.html" />
         <option value="$PROJECT_DIR$/cs411_app/urls.py" />
         <option value="$PROJECT_DIR$/cs411_app/keywords.py" />
-        <option value="$PROJECT_DIR$/cs411_app/views.py" />
         <option value="$PROJECT_DIR$/cs411_app/templates/analyze.html" />
+        <option value="$PROJECT_DIR$/cs411_app/views.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-35" />
     <option name="y" value="-10" />
     <option name="width" value="1935" />
@@ -224,7 +223,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.16308725" />
@@ -479,8 +478,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs411_app/templates/analyze.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="187" column="28" selection-start-line="187" selection-start-column="28" selection-end-line="187" selection-end-column="28" />
+        <state relative-caret-position="280">
+          <caret line="188" column="28" selection-start-line="188" selection-start-column="28" selection-end-line="188" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -493,8 +492,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs411_app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="367" column="55" selection-start-line="367" selection-start-column="55" selection-end-line="367" selection-end-column="55" />
+        <state relative-caret-position="-143">
+          <caret line="268" lean-forward="true" selection-start-line="268" selection-end-line="268" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

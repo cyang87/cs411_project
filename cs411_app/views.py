@@ -258,12 +258,17 @@ def analyze(request):
             condition = str(request.POST.get("symptoms", ""))
 
             print(condition)
+
             keywords = get_keywords(condition, sym_vocab)
             keywords = ['%' + keyword + '%' for keyword in keywords]
 
             n_result = []
             d_set = set()
+
+            mapper = {1: 'Somewhat likely', 2: 'Likely', 3: 'Very likely'}
+
             for symptom in keywords:
+
                 each_symp = symptom.split("+")
                 query1 = "select t2.Name, t.weight as Likelihood from sym_dis t, symptoms t1, disease t2 " + \
                          "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and " + \
@@ -278,7 +283,6 @@ def analyze(request):
 
                 t_result = [{columns[index][0]: column for index, column in enumerate(value)} for value in result]
 
-                mapper = {1: 'Somewhat likely', 2: 'Likely', 3: 'Very likely'}
                 for r in t_result:
                     if r['Name'] in d_set:
                         for n in n_result:
@@ -324,7 +328,7 @@ def analyze(request):
             symptoms_dict = collections.defaultdict(int)
             for symptom in to_add:
                 # print(symptom)
-                
+
                 query1 = "select t2.Name as d_name, t.Weight from sym_dis t, symptoms t1, disease t2 " + \
                     "where t2.DiseaseID = t.DiseaseID and t1.SymptomID = t.SymptomID and t1.name LIKE %s order by t.weight limit 15;"
 
